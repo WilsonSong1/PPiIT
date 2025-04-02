@@ -1,0 +1,357 @@
+/* Importing Google Fonts - Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+/* Apply to the host component */
+:host {
+  font-family: 'Poppins', sans-serif;
+  display: block;
+  height: 100%;
+  
+  ion-content {
+    --background: linear-gradient(135deg, #71b7e6, #9b59b6);
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    overflow: auto;
+    align-items: center;
+  }
+}
+
+/* Container styles */
+.container {
+  max-width: 600px;
+  width: 100%;
+  background-color: #fff;
+  padding: 25px 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  position: relative;
+
+  /* Title styles */
+  .title {
+    font-size: 24px;
+    font-weight: 600;
+    position: relative;
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 40%;
+      transform: translateX(-50%);
+      bottom: -8px;
+      height: 3px;
+      width: 30px;
+      border-radius: 5px;
+      background: linear-gradient(135deg, #71b7e6, #9b59b6);
+    }
+  }
+
+  /* Form content styles */
+  .content {
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+
+      ion-item {
+        --background: transparent;
+        --border-color: #e0e0e0;
+        --border-width: 0 0 1px 0;
+        --highlight-color-focused: #9b59b6;
+        --highlight-color-valid: #9b59b6;
+        --padding-start: 0;
+        --inner-padding-end: 0;
+        --min-height: 60px;
+        --border-radius: 8px;
+        margin-bottom: 5px;
+
+        ion-label {
+          color: #555;
+          font-weight: 500;
+          margin-bottom: 5px;
+        }
+
+        ion-input, ion-select {
+          color: #333;
+          --padding-start: 0;
+          --padding-top: 8px;
+          --padding-bottom: 8px;
+        }
+
+        &:focus-within {
+          --border-color: #9b59b6;
+        }
+
+        &.date-input {
+          ion-button[slot="end"] {
+            height: 100%;
+            margin: 0;
+            --padding-start: 8px;
+            --padding-end: 8px;
+
+            ion-icon {
+              font-size: 24px;
+              width: 24px;
+              height: 24px;
+              color: #9b59b6;
+            }
+          }
+        }
+      }
+
+      ion-note {
+        display: block;
+        margin-top: -10px;
+        margin-bottom: 5px;
+        font-size: 0.8rem;
+        color: var(--ion-color-danger);
+      }
+
+      /* Date picker input specific styles */
+      .date-picker-input {
+        ion-input {
+          cursor: pointer;
+        }
+        
+        ion-button[slot="end"] {
+          --padding-start: 0;
+          --padding-end: 0;
+          margin-right: -8px;
+          
+          ion-icon {
+            font-size: 24px;
+            color: var(--ion-color-primary);
+          }
+        }
+      }
+
+      /* Role selection styles */
+      .role-group {
+        margin-top: 8px;
+        
+        .role-options {
+          display: flex;
+          gap: 20px;
+          padding: 8px 0;
+
+          ion-item {
+            --background: transparent;
+            --border-width: 0;
+            --inner-padding-end: 0;
+            --min-height: 35px;
+            
+            ion-radio {
+              margin-right: 8px;
+              --color: #9b59b6;
+              --color-checked: #9b59b6;
+            }
+
+            &::part(native) {
+              padding: 0;
+            }
+          }
+        }
+      }
+
+      /* Submit button styles */
+      .submit-button {
+        --background: linear-gradient(135deg, #71b7e6, #9b59b6);
+        --background-activated: linear-gradient(-135deg, #71b7e6, #9b59b6);
+        --border-radius: 8px;
+        height: 50px;
+        font-weight: 600;
+        margin: 20px 0 10px;
+        font-size: 1rem;
+        --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+
+        &:hover {
+          --box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+          transform: translateY(-2px);
+        }
+
+        ion-spinner {
+          color: white;
+        }
+      }
+
+      /* Login link styles */
+      .login-link {
+        text-align: center;
+        color: #666;
+        margin-top: 15px;
+        font-size: 0.9rem;
+
+        a {
+          color: #9b59b6;
+          text-decoration: none;
+          font-weight: 500;
+          transition: color 0.2s ease;
+
+          &:hover {
+            color: #7d48a8;
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Date Picker Modal Styles */
+ion-modal {
+  --width: 90%;
+  --height: 400px;
+  --max-width: 400px;
+  --border-radius: 16px;
+  --box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+
+  ion-datetime {
+    height: 100%;
+    width: 100%;
+  }
+
+  ion-header {
+    ion-toolbar {
+      --background: #f8f9fa;
+      --color: #333;
+      
+      ion-title {
+        font-weight: 500;
+      }
+      
+      ion-buttons {
+        ion-button {
+          --color: #9b59b6;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+
+  ion-content {
+    --background: #ffffff;
+  }
+}
+
+/* Date Picker Input Styles */
+.date-picker-input {
+  ion-input {
+    cursor: pointer;
+  }
+  
+  ion-button[slot="end"] {
+    --padding-start: 0;
+    --padding-end: 0;
+    margin-right: -8px;
+    
+    ion-icon {
+      font-size: 24px;
+      color: var(--ion-color-primary);
+    }
+  }
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  :host {
+    ion-content {
+      padding: 15px;
+      align-items: flex-start;
+    }
+  }
+
+  .container {
+    padding: 20px;
+    margin: 10px auto;
+
+    .content {
+      form {
+        .role-group {
+          flex-direction: column;
+          gap: 10px;
+          align-items: flex-start;
+        }
+      }
+    }
+  }
+  
+  ion-modal {
+    --width: 100%;
+    --height: 100%;
+    --max-width: none;
+    --border-radius: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 15px;
+    margin: 0 auto 20px;
+
+    .title {
+      font-size: 20px;
+    }
+
+    .role-group {
+      .role-options {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  }
+  
+  ion-modal {
+    --height: 60vh;
+  }
+}
+
+/* Role Selection Styles */
+ion-radio-group {
+  width: 100%;
+  margin-top: 8px;
+
+  .role-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 8px 0;
+
+    ion-item {
+      --background: transparent;
+      --border-width: 0;
+      --padding-start: 0;
+      --inner-padding-end: 0;
+      --min-height: 35px;
+      
+      ion-label {
+        margin: 0;
+        color: #333;
+      }
+
+      ion-radio {
+        margin: 0 8px 0 0;
+        --color: #9b59b6;
+        --color-checked: #9b59b6;
+      }
+
+      &::part(native) {
+        padding: 0;
+      }
+    }
+  }
+}
+
+@media (min-width: 481px) {
+  ion-radio-group {
+    .role-options {
+      flex-direction: row;
+      gap: 30px;
+    }
+  }
+}

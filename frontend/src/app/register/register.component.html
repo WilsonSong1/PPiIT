@@ -1,0 +1,161 @@
+<ion-content class="ion-padding" [class.ion-content-bg]="true">
+  <div class="container">
+    <div class="title">Registration</div>
+    <div class="content">
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <!-- Name -->
+        <ion-item>
+          <ion-label position="floating">Full Name</ion-label>
+          <ion-input formControlName="name" type="text"></ion-input>
+        </ion-item>
+        <ion-note color="danger" *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched">
+          Name is required (min 3 characters)
+        </ion-note>
+
+        <!-- Email -->
+        <ion-item>
+          <ion-label position="floating">Email</ion-label>
+          <ion-input formControlName="email" type="email"></ion-input>
+        </ion-item>
+        <ion-note color="danger" *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+          Valid email is required
+        </ion-note>
+
+        <!-- Password -->
+        <ion-item>
+          <ion-label position="floating">Password</ion-label>
+          <ion-input formControlName="password" type="password"></ion-input>
+        </ion-item>
+        <ion-note color="danger" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+          Password must be at least 6 characters
+        </ion-note>
+
+        <!-- Date of Birth Section -->
+        <ion-item class="date-input">
+          <ion-label position="floating">Date of Birth</ion-label>
+          <ion-input 
+            formControlName="dob" 
+            type="text" 
+            readonly 
+            (click)="openDatePicker()"
+            [value]="getDisplayDate()"
+          ></ion-input>
+          <ion-button fill="clear" slot="end" (click)="openDatePicker()">
+            <ion-icon name="calendar" size="large"></ion-icon>
+          </ion-button>
+        </ion-item>
+
+        <!-- Date Picker Modal -->
+        <ion-modal [isOpen]="isDatePickerOpen" (didDismiss)="closeDatePicker()">
+          <ng-template>
+            <ion-header>
+              <ion-toolbar>
+                <ion-title>Select Date</ion-title>
+                <ion-buttons slot="end">
+                  <ion-button (click)="closeDatePicker()">Close</ion-button>
+                </ion-buttons>
+              </ion-toolbar>
+            </ion-header>
+            <ion-content class="ion-padding">
+              <ion-datetime 
+                #datetime
+                presentation="date"
+                [preferWheel]="true"
+                [max]="maxDate"
+                (ionChange)="dateSelected($event)"
+                [showDefaultButtons]="true"
+                [doneText]="'Select'"
+                [cancelText]="'Cancel'"
+                [firstDayOfWeek]="1"
+              ></ion-datetime>
+            </ion-content>
+          </ng-template>
+        </ion-modal>
+
+        <!-- Phone Number -->
+        <ion-item>
+          <ion-label position="floating">Phone Number</ion-label>
+          <ion-input formControlName="phone" type="tel"></ion-input>
+        </ion-item>
+        <ion-note color="danger" *ngIf="registerForm.get('phone')?.invalid && registerForm.get('phone')?.touched">
+          Valid phone number is required (10-15 digits)
+        </ion-note>
+
+        <!-- Address -->
+        <ion-item>
+          <ion-label position="floating">Address</ion-label>
+          <ion-input formControlName="address" type="text"></ion-input>
+        </ion-item>
+        <ion-note color="danger" *ngIf="registerForm.get('address')?.invalid && registerForm.get('address')?.touched">
+          Address is required
+        </ion-note>
+
+        <!-- Security Question -->
+        <ion-item>
+          <ion-label position="floating">Security Question</ion-label>
+          <ion-select formControlName="security_question" interface="action-sheet">
+            <ion-select-option *ngFor="let question of securityQuestions" [value]="question">
+              {{ question }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-note color="danger" *ngIf="registerForm.get('security_question')?.invalid && registerForm.get('security_question')?.touched">
+          Please select a security question
+        </ion-note>
+
+        <!-- Security Answer -->
+        <ion-item>
+          <ion-label position="floating">Security Answer</ion-label>
+          <ion-input formControlName="security_answer" type="text"></ion-input>
+        </ion-item>
+        <ion-note color="danger" *ngIf="registerForm.get('security_answer')?.invalid && registerForm.get('security_answer')?.touched">
+          Security answer is required
+        </ion-note>
+
+        <!-- Role Selection -->
+        <ion-item>
+          <ion-label position="floating"><b>Select Role</b></ion-label>
+          <ion-radio-group formControlName="role">
+            <div class="role-options">
+              <ion-item lines="none">
+                <ion-label>Employee</ion-label>
+                <ion-radio slot="start" value="employee"></ion-radio>
+              </ion-item>
+              <ion-item lines="none">
+                <ion-label>Company</ion-label>
+                <ion-radio slot="start" value="company"></ion-radio>
+              </ion-item>
+            </div>
+          </ion-radio-group>
+        </ion-item>
+        <ion-note color="danger" *ngIf="registerForm.get('role')?.invalid && registerForm.get('role')?.touched">
+          Please select a role
+        </ion-note>
+
+        <!-- Submit Button -->
+        <ion-button 
+          type="submit" 
+          expand="block" 
+          [disabled]="registerForm.invalid || isSubmitting"
+          class="submit-button"
+        >
+          <ion-spinner *ngIf="isSubmitting" name="crescent"></ion-spinner>
+          <span *ngIf="!isSubmitting">Register</span>
+        </ion-button>
+
+        <div class="login-link">
+          <p>Already have an account? <a routerLink="/login">Login NOW!</a></p>
+        </div>
+      </form>
+
+      <!-- Error Alert -->
+      <ion-alert
+        [isOpen]="showErrorAlert"
+        header="Registration Error"
+        [message]="errorMessage"
+        [buttons]="['OK']"
+        (didDismiss)="dismissAlert()"
+      ></ion-alert>
+    </div>
+  </div>
+</ion-content>
