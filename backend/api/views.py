@@ -1,36 +1,45 @@
-# from django.contrib.auth.hashers import make_password
-# from rest_framework.response import Response
-# from rest_framework.decorators import api_view
-# from rest_framework import status
-# from .models import User
-# from .serializers import UserSerializer
-
-# # Register function
-# @api_view(['POST'])
-# def register_user(request):
-#     data = request.data
-#     data['password'] = make_password(data['password'])  # Hash password before storing
-#     serializer = UserSerializer(data=data)
-
-#     if serializer.is_valid():
-#         serializer.save()
-#         return Response({"message": "User registered successfully!"}, status=status.HTTP_201_CREATED)
-    
-#     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-from django.shortcuts import render
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework import status
+import sqlite3
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 from .models import User
-from .serializers import UserSerializer
+import json
 
-@api_view(['POST'])
+@csrf_exempt
 def register(request):
     if request.method == 'POST':
-        serializer = UserSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            # Parse JSON data
+            data = json.loads(request.body)
+            
+            # Validate required fields
+            required_fields = ['name', 'email', 'password', 'dob', 'phone', 
+                             'address', 'security_question', 'security_answer', 'role']
+            if not all(field in data for field in required_fields):
+                return JsonResponse({'error': 'Missing required fields'}, status=400)
+            
+            # Check if email already exists
+            conn = sqlite3.connect('db.sqlite3')
+            cursor = conn.cursor()
+            cursor.execute("SELECT email FROM api_user WHERE email = ?", (data['email'],))
+            if cursor.fetchone():
+                conn.close()
+                return JsonResponse({'error': 'Email already exists'}, status=400)
+            conn.close()
+            
+            # Create user
+            try:
+                uid = User.create_user(data)
+                return JsonResponse({
+                    'status': 'success',
+                    'uid': uid,
+                    'message': 'User registered successfully'
+                }, status=201)
+            except ValueError as e:
+                return JsonResponse({'error': str(e)}, status=400)
+            
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON'}, status=400)
+        except Exception as e:
+            return JsonResponse({'error': f'Server error: {str(e)}'}, status=500)
+    
+    return JsonResponse({'error': 'Method not allowed'}, status=405)
