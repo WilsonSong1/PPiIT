@@ -10,10 +10,30 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [IonicModule, CommonModule, RouterModule],
 })
-export class HeaderComponent  implements OnInit {
+export class HeaderComponent implements OnInit {
+  isLoggedIn = false;
+  userRole: string | null = null;
 
-  constructor() { }
+  ngOnInit() {
+    this.checkLoginStatus();
+  }
 
-  ngOnInit() {}
+  checkLoginStatus() {
+    const userData = sessionStorage.getItem('currentUser');
+    if (userData) {
+      const user = JSON.parse(userData);
+      this.isLoggedIn = true;
+      this.userRole = user.role;
+    } else {
+      this.isLoggedIn = false;
+      this.userRole = null;
+    }
+  }
 
+  logout() {
+    sessionStorage.removeItem('currentUser');
+    this.isLoggedIn = false;
+    this.userRole = null;
+    window.location.href = '/login'; // Full reload to reset state
+  }
 }

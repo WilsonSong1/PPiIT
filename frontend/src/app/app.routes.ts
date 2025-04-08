@@ -1,16 +1,37 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './employee/home/home.component';
+//Employee
+import { HomeComponent } from './employee/employeehome/employeehome.component';
 import { JobseekComponent } from './employee/jobseek/jobseek.component';
 import { CreatecvComponent } from './employee/createcv/createcv.component';
-import { ProfileComponent } from './employee/profile/profile.component';
+import { ProfileComponent } from './employee/employeeprofile/employeeprofile.component';
+//Company
+import { CompanyhomeComponent } from './company/companyhome/companyhome.component';
+import { EmpseekComponent } from './company/empseek/empseek.component';
+import { PlatformComponent } from './company/platform/platform.component';
+import { CompanyprofileComponent } from './company/companyprofile/companyprofile.component';
+//General
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { LandingComponent } from './landing/landing.component';
 
 export const appRoutes: Routes = [
-  { path: 'home', component: HomeComponent },
-  { path: 'jobseek', component: JobseekComponent },
-  { path: 'createcv', component: CreatecvComponent },
-  { path: 'profile', component: ProfileComponent },
+  // Default Route
+  { path: '', pathMatch: 'full', redirectTo: 'homepage' },
+
+  //Employee
+  { path: 'emp-home', component: HomeComponent },
+  { path: 'emp-jobseek', component: JobseekComponent },
+  { path: 'emp-createcv', component: CreatecvComponent },
+  { path: 'emp-profile', component: ProfileComponent },
+
+  //General
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'homepage', component: LandingComponent },
+  
+  //Company
+  { path: 'comp-home', component: CompanyhomeComponent },
+  { path: 'comp-empseek', component: EmpseekComponent },
+  { path: 'comp-profile', component: CompanyprofileComponent },
+  { path: 'comp-platform', component: PlatformComponent },
 ];
