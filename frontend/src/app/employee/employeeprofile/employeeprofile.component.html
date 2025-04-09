@@ -1,3 +1,61 @@
-<p>
-  This is employee profile works!
-</p>
+<ion-content>
+  <div class="container">
+    <div class="title">{{ userProfile?.name ? userProfile.name  : 'My Profile' }}</div>
+    
+    <div class="content">
+      <!-- Loading and error states remain the same -->
+      <div *ngIf="isLoading" class="loading-spinner">
+        <ion-spinner name="crescent"></ion-spinner>
+      </div>
+      
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+      
+      <div *ngIf="!isLoading && !errorMessage" class="profile-details">
+
+        <ion-item>
+          <ion-label position="stacked">Role</ion-label>
+          <ion-input [value]="userProfile.role" readonly></ion-input>
+        </ion-item>
+        
+        <ion-item>
+          <ion-label position="stacked">Email</ion-label>
+          <ion-input type="email" [value]="userProfile.email" readonly></ion-input>
+        </ion-item>
+
+        <!-- Basic Info Section with Dropdown -->
+        <div class="basic-info-section" (click)="toggleDropdown()">
+          <div class="basic-info-header">
+            <div class="basic-info-title">More Information</div>
+            <ion-icon 
+              [name]="isDropdownOpen ? 'chevron-up-outline' : 'chevron-down-outline'" 
+              class="dropdown-icon">
+            </ion-icon>
+          </div>
+          
+          <div class="basic-info-content" *ngIf="isDropdownOpen">
+
+            <ion-item>
+              <ion-label position="stacked">Phone</ion-label>
+              <ion-input type="tel" [value]="userProfile.phone" readonly></ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="stacked">Date of Birth</ion-label>
+              <ion-input [value]="userProfile.dob | date" readonly></ion-input>
+            </ion-item>
+            
+            <ion-item>
+              <ion-label position="stacked">Address</ion-label>
+              <ion-input [value]="userProfile.address" readonly></ion-input>
+            </ion-item>
+          </div>
+        </div>
+        
+        <!-- Rest of Profile Details (always visible) -->
+        
+      </div>
+    </div>
+  </div>
+</ion-content>

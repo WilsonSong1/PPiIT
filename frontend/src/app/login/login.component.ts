@@ -14,6 +14,7 @@ import {
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoginService } from '../service/login.service';
 import { AlertController } from '@ionic/angular';
+import { ProfileService } from '../service/profile.service';
 
 @Component({
   selector: 'app-login',
@@ -39,6 +40,7 @@ export class LoginComponent {
   private fb = inject(FormBuilder);
   private router = inject(Router);
   private loginService = inject(LoginService);
+  private profileService = inject(ProfileService);
   private alertController = inject(AlertController);
 
   loginForm: FormGroup;

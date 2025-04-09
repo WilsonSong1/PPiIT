@@ -4,6 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.hashers import check_password
 from .models import User
 import json
+from django.db import connection
 
 @csrf_exempt
 def register(request):
@@ -86,3 +87,31 @@ def login(request):
             return JsonResponse({'error': 'Invalid JSON'}, status=400)
         except Exception as e:
             return JsonResponse({'error': f'Server error: {str(e)}'}, status=500)
+        
+
+def get_profile(request):
+    if request.method == 'GET':
+        uid = request.GET.get('uid')
+        
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT name, email, dob, phone, address, role FROM api_user WHERE uid = %s", [uid])
+                row = cursor.fetchone()
+                
+                if row:
+                    profile_data = {
+                        'name': row[0],
+                        'email': row[1],
+                        'dob': row[2],
+                        'phone': row[3],
+                        'address': row[4],
+                        'role': row[5]
+                    }
+                    return JsonResponse(profile_data)
+                else:
+                    return JsonResponse({'error': 'User not found'}, status=404)
+        
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    
+    return JsonResponse({'error': 'Method not allowed'}, status=405)

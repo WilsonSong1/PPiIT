@@ -9,18 +9,17 @@
   
   ion-content {
     --background: linear-gradient(135deg, #71b7e6, #9b59b6);
-    display: flex;
-    justify-content: center;
-    padding: 20px;
-    overflow: auto;
-    align-items: center;
+    --padding-start: 20px;
+    --padding-end: 20px;
+    --padding-top: 20px;
+    --padding-bottom: 20px;
   }
 }
 
 /* Container styles */
 .container {
   max-width: 600px;
-  width: 100%;
+  width: calc(100% - 40px);
   background-color: #fff;
   padding: 25px 30px;
   border-radius: 10px;
@@ -261,12 +260,15 @@ ion-modal {
 @media (max-width: 768px) {
   :host {
     ion-content {
-      padding: 15px;
-      align-items: flex-start;
+      --padding-start: 15px;
+      --padding-end: 15px;
+      --padding-top: 15px;
+      --padding-bottom: 15px;
     }
   }
 
   .container {
+    width: calc(100% - 30px);
     padding: 20px;
     margin: 10px auto;
 
@@ -290,9 +292,19 @@ ion-modal {
 }
 
 @media (max-width: 480px) {
+  :host {
+    ion-content {
+      --padding-start: 10px;
+      --padding-end: 10px;
+      --padding-top: 10px;
+      --padding-bottom: 10px;
+    }
+  }
+
   .container {
+    width: calc(100% - 20px);
     padding: 15px;
-    margin: 0 auto 20px;
+    margin: 10px auto;
 
     .title {
       font-size: 20px;
