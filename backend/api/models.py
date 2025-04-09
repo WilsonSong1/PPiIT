@@ -89,3 +89,70 @@ class User(models.Model):
 
     def __str__(self):
         return f"{self.uid} - {self.name} ({self.role})"
+    
+
+class JobPosition(models.Model):
+    POSITION_CHOICES = [
+        ('Engineer', 'Engineer'),
+        ('Doctor', 'Doctor'),
+        ('Accounting', 'Accounting'),
+        ('Marketing', 'Marketing'),
+        ('Part Timer', 'Part Timer'),
+        ('Event Crew', 'Event Crew'),
+        ('Software Engineer', 'Software Engineer'),
+        ('Data Analyst', 'Data Analyst'),
+        ('Product Manager', 'Product Manager'),
+        ('UX Designer', 'UX Designer'),
+        ('DevOps Engineer', 'DevOps Engineer'),
+        ('QA Engineer', 'QA Engineer'),
+        ('System Administrator', 'System Administrator'),
+        ('Technical Writer', 'Technical Writer'),
+        ('Frontend Developer', 'Frontend Developer'),
+        ('Backend Developer', 'Backend Developer'),
+        ('Full Stack Developer', 'Full Stack Developer'),
+        ('Mobile Developer', 'Mobile Developer'),
+        ('Data Scientist', 'Data Scientist'),
+        ('Machine Learning Engineer', 'Machine Learning Engineer'),
+        ('Cloud Architect', 'Cloud Architect'),
+        ('Network Engineer', 'Network Engineer'),
+        ('Security Specialist', 'Security Specialist'),
+    ]
+    
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='job_positions',
+        db_column='uid',
+        to_field='uid'
+    )
+    position = models.CharField(
+        max_length=50,
+        choices=POSITION_CHOICES
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'job_position'
+        ordering = ['-created_at']
+        verbose_name = 'Job Position'
+        verbose_name_plural = 'Job Positions'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'position'],
+                name='unique_user_position'
+            )
+        ]
+
+    def clean(self):
+        """Validate that employee can't have duplicate positions"""
+        if JobPosition.objects.filter(
+            user=self.user,
+            position=self.position
+        ).exclude(pk=self.pk).exists():
+            raise ValidationError(
+                'This position already exists for the user'
+            )
+
+    def __str__(self):
+        return f"{self.user.name} - {self.position}"
