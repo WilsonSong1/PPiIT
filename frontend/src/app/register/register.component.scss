@@ -59,7 +59,7 @@
 
       ion-item {
         --background: transparent;
-        --border-color: #e0e0e0;
+        --border-color: grey;
         --border-width: 0 0 1px 0;
         --highlight-color-focused: #9b59b6;
         --highlight-color-valid: #9b59b6;
@@ -76,7 +76,7 @@
         }
 
         ion-input, ion-select {
-          color: #333;
+          color: black;
           --padding-start: 0;
           --padding-top: 8px;
           --padding-bottom: 8px;
@@ -352,6 +352,55 @@ ion-radio-group {
     .role-options {
       flex-direction: row;
       gap: 30px;
+    }
+  }
+}
+
+/* Add to the bottom of your existing SCSS */
+.success-alert {
+  --backdrop-opacity: 0.8;
+  
+  .alert-wrapper {
+    background: linear-gradient(135deg, #71b7e6, #9b59b6);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  .alert-header {
+    color: white;
+    font-size: 1.4rem;
+    font-weight: 600;
+    text-align: center;
+    padding-bottom: 8px;
+  }
+  
+  .alert-message {
+    color: white;
+    font-size: 1rem;
+    text-align: center;
+    line-height: 1.5;
+    
+    strong {
+      color: #ffeb3b;
+      font-weight: 600;
+    }
+  }
+  
+  .alert-button-group {
+    padding: 0 16px 16px;
+  }
+  
+  .alert-button {
+    background: white;
+    color: #9b59b6;
+    border-radius: 8px;
+    font-weight: 600;
+    margin-top: 16px;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
   }
 }

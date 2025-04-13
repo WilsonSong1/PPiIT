@@ -22,7 +22,8 @@ import {
   IonSelectOption,
   IonText,
   IonNote,
-  IonIcon
+  IonIcon,
+  AlertController
 } from '@ionic/angular/standalone';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RegisterService } from '../service/register.service';
@@ -65,6 +66,7 @@ import { calendar } from 'ionicons/icons';
     IonNote,
     IonIcon
   ],
+  providers: [AlertController]
 })
 
 
@@ -72,6 +74,7 @@ export class RegisterComponent {
   private fb = inject(FormBuilder);
   private registerService = inject(RegisterService);
   private router = inject(Router);
+  private alertController = inject(AlertController); //Pop Up msg
 
   registerForm: FormGroup;
   isSubmitting = false;
@@ -90,7 +93,7 @@ export class RegisterComponent {
   ];
 
   constructor() {
-    addIcons({ calendar }); // Register calendar icon
+    addIcons({ calendar });
     this.registerForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
@@ -143,7 +146,7 @@ export class RegisterComponent {
   }
 
   // Register submit button
-  onSubmit() {
+  async onSubmit() {
     if (this.registerForm.invalid) {
       this.markAllAsTouched();
       return;
@@ -152,19 +155,39 @@ export class RegisterComponent {
     this.isSubmitting = true;
     const formData = this.registerForm.value;
 
-    // Convert display format back to ISO string if needed
     this.registerService.registerUser(formData).subscribe({
-      next: () => {
+      next: async (response) => {
         this.isSubmitting = false;
-        this.router.navigate(['/login'], {
-          state: { registrationSuccess: true }
-        });
+        await this.showSuccessAlert(response.uid);
       },
       error: (error: HttpErrorResponse) => {
         this.isSubmitting = false;
-        this.handleRegistrationError(error);
+        this.errorMessage = error.error?.error || error.message;
+        this.showErrorAlert = true;
       }
     });
+  }
+
+  private async showSuccessAlert(uid?: string) {
+    const alert = await this.alertController.create({
+      header: 'Registration Successful!',
+      message: uid 
+        ? `Your account has been created successfully!`
+        : 'Back to Login.....',
+      buttons: [
+        {
+          text: 'Continue to Login',
+          handler: () => {
+            this.router.navigate(['/login'], {
+              queryParams: { registered: 'true' }
+            });
+          }
+        }
+      ],
+      cssClass: 'success-alert'
+    });
+  
+    await alert.present();
   }
 
   private markAllAsTouched() {
