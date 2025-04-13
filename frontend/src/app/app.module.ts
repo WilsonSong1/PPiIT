@@ -5,21 +5,14 @@ import { AppComponent } from './app.component';
 // import { AppRoutingModule } from './app-routing.module';
 import { RouterModule } from '@angular/router';
 import { appRoutes } from './app.routes';
-// Import your employee components
-import { HomeComponent } from './employee/employeehome/employeehome.component';
+// Import your components
+import { HeaderComponent } from './header/header.component'; // Import HeaderComponent
+import { HomeComponent } from './employee/home/home.component';
 import { JobseekComponent } from './employee/jobseek/jobseek.component';
 import { CreatecvComponent } from './employee/createcv/createcv.component';
-import { ProfileComponent } from './employee/employeeprofile/employeeprofile.component';
-//General
-import { HeaderComponent } from './header/header.component'; // Import HeaderComponent
+import { ProfileComponent } from './employee/profile/profile.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
-import { LandingComponent } from './landing/landing.component';
-// Import your company components
-import { CompanyhomeComponent } from './company/companyhome/companyhome.component';
-import { EmpseekComponent } from './company/empseek/empseek.component';
-import { PlatformComponent } from './company/platform/platform.component';
-import { CompanyprofileComponent } from './company/companyprofile/companyprofile.component';
 
 // Import Angular Modules
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms'; // Add this import
@@ -31,23 +24,18 @@ import { provideHttpClient } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent, 
+    HeaderComponent, // Add HeaderComponent
     HomeComponent,
     JobseekComponent,
     CreatecvComponent,
     ProfileComponent,
     LoginComponent,
-    RegisterComponent,
-    CompanyhomeComponent,
-    EmpseekComponent,
-    PlatformComponent,
-    CompanyprofileComponent,
-    LandingComponent
+    RegisterComponent
   ],
   imports: [
     BrowserModule, 
     IonicModule.forRoot(), 
-    // AppRoutingModule,
+    // AppRoutingModule],
     RouterModule.forRoot(appRoutes),
     FormsModule, // Add FormsModule
     ReactiveFormsModule
